@@ -9,7 +9,7 @@
 (def readings (atom []))
 
 (defn to-csv-lines [readings]
-  (->> (for [partition (partition-by #(% "uuid") readings)
+  (->> (for [partition (vals (group-by #(% "uuid") readings))
              data (map vector (iterate inc 0) partition)
              :let [[id data] data]]
          (clojure.string/join "," [id (data "accel") (data "uuid")]))
@@ -63,7 +63,7 @@
 ;;      ())
 
 
-;; (->> (for [partition (partition-by #(% "uuid") sample-random-data)
+;; (->> (for [partition (vals (group-by #(% "uuid") mdata))
 ;;            data (map vector (iterate inc 0) partition)
 ;;            :let [[id data] data]]
 ;;        (clojure.string/join "," [id (data "accel") (data "uuid")]))

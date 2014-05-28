@@ -9,17 +9,24 @@ function absAcceleration(x, y, z){
 }
 
 
+var SERVER = "http://10.11.2.19:3000";
+//var SERVER = "http://192.168.1.102:3000";
+
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function($scope) {
+  .controller('DashCtrl', function($scope, $http) {
     $scope.acceleration = "0";
     var options = { frequency: 500 };
     var watchID = navigator.accelerometer.watchAcceleration(function(acceleration){
       $scope.acceleration = absAcceleration(acceleration.x, acceleration.y, acceleration.z);
       console.log( "AbsAccel: ->( " + $scope.acceleration +" )<-");
+      $http.post(SERVER + '/accelerations', JSON.stringify({
+        accel: $scope.acceleration,
+        uuid: device.uuid
+      })).success(function(){
+        console.log( 'posted' );
+      });
 
-// "X: " + acceleration.x + " Y: "
-//         + acceleration.y + "Z: " + acceleration.z;
       $scope.$apply();
     }, onError, options);
   })

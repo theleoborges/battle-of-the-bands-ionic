@@ -1,0 +1,19 @@
+@mixin colored-steps($steps, $color-collection) {
+  @for $i from 0 through $steps {
+
+    $string-i: '"#{$i}"';
+
+    &[data-accel=#{$string-i}] {
+      background-color: unquote(nth($color-collection, $i+1));
+    }
+  }
+}
+
+$cool-colors: ("#000000","#0c0019","#220045","#330068","#3d0082","#380090","#330d9c","#2e19a4","#2922ad","#232db7","#1e36bf","#1a3dc6","#1446ce","#0c50d7","#0159e2","#0159e2","#006df4","#0079ff","#0091ff","#00aeff","#00ceff","#00f0ff");
+
+ion-content {
+  @include colored-steps(21, $cool-colors);
+  -webkit-transition: background-color 100ms linear;
+     -moz-transition: background-color 100ms linear;
+         -transition: background-color 100ms linear;
+}

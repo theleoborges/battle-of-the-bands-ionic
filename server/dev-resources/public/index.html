@@ -28,67 +28,36 @@
       stroke-width: 1.5px;
       }
     </style>
-    <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/src/css/graph.css">
-    <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/src/css/legend.css">
-    <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/examples/css/extensions.css">
+    <!-- <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/src/css/graph.css"> -->
+    <!-- <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/src/css/legend.css"> -->
+    <!-- <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/examples/css/extensions.css"> -->
+
+    <link type="text/css" rel="stylesheet" href="http://nvd3.org/assets/css/nv.d3.css">
   </head>
 
   <body>
     <div id="test">
       <h1>ClojureScript</h1>
     </div>
-    <div id="chart"></div>
+    <!-- <div id="chart"></div> -->
 
-    <div id="legend"></div>
+    <!-- <div id="legend"></div> -->
+
+    <div id="chart">
+      <svg></svg>
+    </div>
+
+
     <script src="http://d3js.org/d3.v3.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.js"></script> -->
+
+    <script src="http://nvd3.org/assets/js/nv.d3.js"></script>
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
 
-    <script type="text/javascript">
-
-//var palette = new Rickshaw.Color.Palette( { scheme: 'httpStatus' } );
-//
-//var wrapper = new Rickshaw.Graph.Ajax( {
-//	element: document.getElementById("chart"),
-//	dataURL: '/summary',
-//	width: 960,
-//	height: 500,
-//	renderer: 'bar',
-//	onData: function(d) { return transformData(d) },
-//	onComplete: function(w) {
-//		var legend = new Rickshaw.Graph.Legend( {
-//			element: document.querySelector('#legend'),
-//			graph: w.graph
-//		} );
-//	}
-//} );
-//
-//function transformData(d) {
-//	var data = [];
-//	var statusCounts = {};
-//
-//console.log(d);
-//        data.push( {
-//          name: 'band1-max',
-//          data: [{x: 0, y: parseFloat(d.max)}],
-//          color: palette.color(400)
-//        } );
-//        data.push( {
-//          name: 'band1-mean',
-//          data: [{x: 0, y: parseFloat(d.mean)}],
-//          color: palette.color(300)
-//        } );
-//        data.push( {
-//          name: 'band1-min',
-//          data: [{x: 0, y: parseFloat(d.min)}],
-//          color: palette.color(200)
-//        } );
-//	return data;
-//}
-
-    </script>
     <script src="js/server.js"></script>
 </body>
 </html>

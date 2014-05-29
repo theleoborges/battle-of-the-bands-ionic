@@ -13,6 +13,7 @@
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2138"]
+                 [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [cheshire "5.3.1"]
                  [cljs-ajax "0.2.4"]]
 

@@ -5,37 +5,26 @@
 ;;; functions in the :source-paths setting of the :builds, it is
 ;;; strongly suggested to add them to the leiningen :source-paths.
 (ns server.core
-  (:require [ajax.core :refer [GET POST]]))
+  (:require [ajax.core :refer [GET POST]]
+            [cljs.core.async :as async
+             :refer [chan <! >! timeout close!]])
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
 (enable-console-print!)
 
-(def palette (js/Rickshaw.Color.Palette. #js {:scheme "httpStatus"}))
+(def chart (.multiBarChart js/nv.models))
 
-(defn transform-data [datum]
-  (map (fn [name key color]
-         {:name name
-          :data [{:x 0 :y (datum key)}]
-          :color (.color palette color)})
-       ["band1-max" "band1-mean" "band1-min"]
-       ["max" "mean" "min"]
-       [400 300 200]))
-
-
-
-(def wrapper (js/Rickshaw.Graph.Ajax.
-              #js {
-                   :element (.getElementById js/document "chart")
-                   :dataURL "/summary"
-                   :width 960
-                   :height 500
-                   :renderer "bar"
-                   :min -5
-                   :onData (comp clj->js reverse transform-data js->clj)
-                   :onComplete (fn [w]
-                                 (js/Rickshaw.Graph.Legend.
-                                  #js {:element (.querySelector js/document "#legend")
-                                       :graph (.-graph w)})
-                                 (.render (js/Rickshaw.Graph.Axis.Y.
-                                           #js {:graph (.-graph w)}))
-
-                                 )}))
+(go-loop []
+  (.json js/d3 "/summary"
+         (fn [resp]
+           (.addGraph js/nv (fn []
+                              (.tickFormat (.-xAxis chart) (.format js/d3 ",f"))
+                              (.tickFormat (.-yAxis chart) (.format js/d3 ",.1f"))
+                              (-> (.select js/d3 "#chart svg")
+                                  (.datum (clj->js [resp]))
+                                  .transition
+                                  (.duration 500)
+                                  (.call chart))
+                              (.windowResize js/nv.utils (.-update chart))))))
+  (<! (timeout 1000))
+  (recur))

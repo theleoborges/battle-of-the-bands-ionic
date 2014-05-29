@@ -13,7 +13,10 @@ $cool-colors: ("#000000","#0c0019","#220045","#330068","#3d0082","#380090","#330
 
 ion-content {
   @include colored-steps(21, $cool-colors);
-  -webkit-transition: background-color 100ms linear;
-     -moz-transition: background-color 100ms linear;
-         -transition: background-color 100ms linear;
+  -webkit-transition: background-color 300ms ease-out;
+     -moz-transition: background-color 300ms ease-out;
+         -transition: background-color 300ms ease-out;
+  h1 {
+    color: red;
+  }
 }

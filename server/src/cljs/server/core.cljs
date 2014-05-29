@@ -23,8 +23,8 @@
                               (-> (.select js/d3 "#chart svg")
                                   (.datum (clj->js [resp]))
                                   .transition
-                                  (.duration 500)
+                                  (.duration 50)
                                   (.call chart))
                               (.windowResize js/nv.utils (.-update chart))))))
-  (<! (timeout 1000))
+  (<! (timeout 500))
   (recur))

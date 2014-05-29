@@ -16,18 +16,24 @@ angular.module('starter.controllers', [])
 
   .controller('DashCtrl', function($scope, $rootScope, $http) {
     $rootScope.acceleration = "0";
+    $rootScope.accelerationInt = "0";
     var options = { frequency: 500 };
     var watchID = navigator.accelerometer.watchAcceleration(function(acceleration){
-      $rootScope.acceleration = absAcceleration(acceleration.x, acceleration.y, acceleration.z);
+      var absAccel = absAcceleration(acceleration.x, acceleration.y, acceleration.z);
+      $rootScope.accelerationInt = Math.abs(parseInt(absAccel));
+      $rootScope.acceleration = Math.abs(parseInt(absAccel));
+      $rootScope.$apply();
       console.log( "AbsAccel: ->( " + $scope.acceleration +" )<-");
       $http.post(SERVER + '/accelerations', JSON.stringify({
-        accel: $scope.acceleration,
+        accel: $rootScope.acceleration,
         uuid: device.uuid
-      })).success(function(){
+      }))
+        .success(function(){
         console.log( 'posted' );
-      });
-
-      $rootScope.$apply();
+      })
+        .error(function(err){
+          console.log( "error posting..." );
+        });
     }, onError, options);
   })
 

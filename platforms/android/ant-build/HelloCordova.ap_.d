@@ -39,6 +39,8 @@
 /Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/plugins \
 /Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/README.md \
 /Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/templates \
+/Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/css/ionic.app.css \
+/Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/css/ionic.app.min.css \
 /Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/css/style.css \
 /Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/img/ionic.png \
 /Users/lborges/tw-projects/battle-of-the-bands-ionic/platforms/android/assets/www/js/app.js \

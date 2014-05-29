@@ -28,83 +28,65 @@
       stroke-width: 1.5px;
       }
     </style>
+    <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/src/css/graph.css">
+    <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/src/css/legend.css">
+    <link type="text/css" rel="stylesheet" href="http://code.shutterstock.com/rickshaw/examples/css/extensions.css">
   </head>
 
   <body>
     <div id="test">
       <h1>ClojureScript</h1>
     </div>
+    <div id="chart"></div>
+
+    <div id="legend"></div>
     <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+
     <script type="text/javascript">
-      <!-- var arrData = [ -->
-      <!-- ["2012-10-02",200], -->
-      <!-- ["2012-10-09", 300], -->
-      <!-- ["2012-10-12", 150]]; -->
 
-      <!-- var margin = {top: 20, right: 20, bottom: 30, left: 50}, -->
-      <!-- width = 960 - margin.left - margin.right, -->
-      <!-- height = 500 - margin.top - margin.bottom; -->
-
-      <!-- var parseDate = d3.time.format("%Y-%m-%d").parse; -->
-
-
-      <!-- var x = d3.time.scale() -->
-      <!-- .range([0, width]) -->
-
-      <!-- var y = d3.scale.linear() -->
-      <!-- .range([height, 0]); -->
-
-      <!-- var xAxis = d3.svg.axis() -->
-      <!-- .scale(x) -->
-      <!-- .orient("bottom"); -->
-
-      <!-- var yAxis = d3.svg.axis() -->
-      <!-- .scale(y) -->
-      <!-- .orient("left"); -->
-
-      <!-- var line = d3.svg.line() -->
-      <!-- .x(function(d) { return x(d.date); }) -->
-      <!-- .y(function(d) { return y(d.close); }); -->
-
-      <!-- var svg = d3.select("body").append("svg") -->
-      <!-- .attr("width", width + margin.left + margin.right) -->
-      <!-- .attr("height", height + margin.top + margin.bottom) -->
-      <!-- .append("g") -->
-      <!-- .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); -->
-
-      <!-- var data = arrData.map(function(d) { -->
-      <!-- return { -->
-      <!-- date: parseDate(d[0]), -->
-      <!-- close: d[1] -->
-      <!-- }; -->
-
-      <!-- }); -->
-
-      <!-- console.log(data); -->
-
-
-      <!-- x.domain(d3.extent(data, function(d) { return d.date; })); -->
-      <!-- y.domain(d3.extent(data, function(d) { return d.close; })); -->
-
-      <!-- svg.append("g") -->
-      <!-- .attr("class", "x axis") -->
-      <!-- .attr("transform", "translate(0," + height + ")") -->
-      <!-- .call(xAxis); -->
-
-      <!-- svg.append("g") -->
-      <!-- .attr("class", "y axis") -->
-      <!-- .call(yAxis) -->
-      <!-- .append("text") -->
-      <!-- .attr("transform", "rotate(-90)") -->
-      <!-- .attr("y", 6) -->
-      <!-- .attr("dy", ".71em") -->
-      <!-- .style("text-anchor", "end") -->
-      <!-- .text("Price ($)"); -->
-
-      <!-- svg.append("path") -->
-      <!-- .datum(data) -->
-      <!-- .attr("class", "line") -->
-      <!-- .attr("d", line); -->
+//var palette = new Rickshaw.Color.Palette( { scheme: 'httpStatus' } );
+//
+//var wrapper = new Rickshaw.Graph.Ajax( {
+//	element: document.getElementById("chart"),
+//	dataURL: '/summary',
+//	width: 960,
+//	height: 500,
+//	renderer: 'bar',
+//	onData: function(d) { return transformData(d) },
+//	onComplete: function(w) {
+//		var legend = new Rickshaw.Graph.Legend( {
+//			element: document.querySelector('#legend'),
+//			graph: w.graph
+//		} );
+//	}
+//} );
+//
+//function transformData(d) {
+//	var data = [];
+//	var statusCounts = {};
+//
+//console.log(d);
+//        data.push( {
+//          name: 'band1-max',
+//          data: [{x: 0, y: parseFloat(d.max)}],
+//          color: palette.color(400)
+//        } );
+//        data.push( {
+//          name: 'band1-mean',
+//          data: [{x: 0, y: parseFloat(d.mean)}],
+//          color: palette.color(300)
+//        } );
+//        data.push( {
+//          name: 'band1-min',
+//          data: [{x: 0, y: parseFloat(d.min)}],
+//          color: palette.color(200)
+//        } );
+//	return data;
+//}
 
     </script>
     <script src="js/server.js"></script>

@@ -7,6 +7,7 @@
             [clojure.java.io :as io]))
 
 (def readings (atom []))
+;;(def readings (atom [{"accel" -0.0625770071193461, "uuid" "d02cc198c4aaba23"} {"accel" -0.02444887696123743, "uuid" "d02cc198c4aaba23"} {"accel" -0.02595013095105969, "uuid" "d02cc198c4aaba23"} {"accel" 7.2819740426456825, "uuid" "d02cc198c4aaba23"} {"accel" 13.70456721851522, "uuid" "d02cc198c4aaba23"} {"accel" 12.621086256747716, "uuid" "d02cc198c4aaba23"} {"accel" 22.753593766289402, "uuid" "d02cc198c4aaba23"} {"accel" -1.9342286271924864, "uuid" "d02cc198c4aaba23"} {"accel" -0.7622546342974985, "uuid" "d02cc198c4aaba23"} {"accel" 0.06729047169787172, "uuid" "d02cc198c4aaba23"} {"accel" -0.019121296332306414, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05564720807719503, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05564720807719503, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05745450921267725, "uuid" "d02cc198c4aaba23"} {"accel" -0.015821151056641725, "uuid" "d02cc198c4aaba23"}]))
 
 (defn to-csv-lines [readings]
   (->> (for [partition (vals (group-by #(% "uuid") readings))
@@ -33,6 +34,17 @@
        {:status 200
         :headers {"Content-Type" "application/json"}
         :body (generate-string {:data @readings})})
+
+  (GET "/summary" []
+       (let [data (map #(% "accel") @readings)
+             count (count data)
+             mean  (/ (reduce + data) count)]
+         {:status 200
+          :headers {"Content-Type" "application/json"}
+          :body (generate-string {:count count
+                                  :mean mean
+                                  :min (apply min data)
+                                  :max (apply max data)})}))
   (POST "/accelerations" {body :body}
         (swap! readings conj (-> body slurp parse-string))
         "Ok.")
@@ -43,7 +55,11 @@
   (handler/site app-routes))
 
 
-;; (def mdata [{"accel" -0.0625770071193461, "uuid" "d02cc198c4aaba23"} {"accel" -0.02444887696123743, "uuid" "d02cc198c4aaba23"} {"accel" -0.02595013095105969, "uuid" "d02cc198c4aaba23"} {"accel" 7.2819740426456825, "uuid" "d02cc198c4aaba23"} {"accel" 13.70456721851522, "uuid" "d02cc198c4aaba23"} {"accel" 12.621086256747716, "uuid" "d02cc198c4aaba23"} {"accel" 22.753593766289402, "uuid" "d02cc198c4aaba23"} {"accel" -1.9342286271924864, "uuid" "d02cc198c4aaba23"} {"accel" -0.7622546342974985, "uuid" "d02cc198c4aaba23"} {"accel" 0.06729047169787172, "uuid" "d02cc198c4aaba23"} {"accel" -0.019121296332306414, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05564720807719503, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05564720807719503, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05745450921267725, "uuid" "d02cc198c4aaba23"} {"accel" -0.015821151056641725, "uuid" "d02cc198c4aaba23"}])
+(def mdata [{"accel" -0.0625770071193461, "uuid" "d02cc198c4aaba23"} {"accel" -0.02444887696123743, "uuid" "d02cc198c4aaba23"} {"accel" -0.02595013095105969, "uuid" "d02cc198c4aaba23"} {"accel" 7.2819740426456825, "uuid" "d02cc198c4aaba23"} {"accel" 13.70456721851522, "uuid" "d02cc198c4aaba23"} {"accel" 12.621086256747716, "uuid" "d02cc198c4aaba23"} {"accel" 22.753593766289402, "uuid" "d02cc198c4aaba23"} {"accel" -1.9342286271924864, "uuid" "d02cc198c4aaba23"} {"accel" -0.7622546342974985, "uuid" "d02cc198c4aaba23"} {"accel" 0.06729047169787172, "uuid" "d02cc198c4aaba23"} {"accel" -0.019121296332306414, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05564720807719503, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05564720807719503, "uuid" "d02cc198c4aaba23"} {"accel" -0.0175460874933151, "uuid" "d02cc198c4aaba23"} {"accel" -0.05745450921267725, "uuid" "d02cc198c4aaba23"} {"accel" -0.015821151056641725, "uuid" "d02cc198c4aaba23"}])
+
+
+
+
 
 ;;  (def sample-random-data (concat mdata (shuffle (map (fn [m] (assoc m "uuid" "Y")) mdata))))
 ;; ;; (apply concat (for [p (partition-by #(% "uuid") sample-random-data)]

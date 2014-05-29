@@ -7,68 +7,35 @@
 (ns server.core
   (:require [ajax.core :refer [GET POST]]))
 
-(.write js/document "Clojurescript")
+(enable-console-print!)
 
-(def margin {:top 20, :right 20, :bottom 30, :left 50})
+(def palette (js/Rickshaw.Color.Palette. #js {:scheme "httpStatus"}))
 
-(def width (-> 960
-               (- (:left margin))
-               (- (:right margin))))
-
-(def height (-> 500
-                (- (:top margin))
-                (- (:bottom margin))))
-
-
-(def x (-> js/d3 (.-time) (.scale) (.range #js [0 width])))
-(def y (-> js/d3 (.-time) (.scale) (.range #js [height 0])))
-
-(def xAxis (-> js/d3 (.-svg) (.axis) (.scale x) (.orient "bottom")))
-
-(def yAxis (-> js/d3 (.-svg) (.axis) (.scale y) (.orient "left")))
-
-(def line (-> js/d3 (.-svg) (.line)
-              (.x (fn [d] (x (first d))))
-              (.y (fn [d] (y (second d))))))
-
-(def svg (-> js/d3 (.select "body") (.append "svg")
-             (.attr "width" (-> width (+ (:left margin)) (+ (:right margin))))
-             (.attr "height" (-> height (+ (:top margin)) (+ (:bottom margin))))
-             (.append "g")
-             (.attr "transform" (str "translate(" (:left margin) "," (:top margin) ")"))))
+(defn transform-data [datum]
+  (map (fn [name key color]
+         {:name name
+          :data [{:x 0 :y (datum key)}]
+          :color (.color palette color)})
+       ["band1-max" "band1-mean" "band1-min"]
+       ["max" "mean" "min"]
+       [400 300 200]))
 
 
 
-(-> svg
-    (.append "g")
-    (.attr "class" "x axis")
-    (.attr "transform" (str "translate(0," height ")")))
+(def wrapper (js/Rickshaw.Graph.Ajax.
+              #js {
+                   :element (.getElementById js/document "chart")
+                   :dataURL "/summary"
+                   :width 960
+                   :height 500
+                   :renderer "bar"
+                   :min -5
+                   :onData (comp clj->js reverse transform-data js->clj)
+                   :onComplete (fn [w]
+                                 (js/Rickshaw.Graph.Legend.
+                                  #js {:element (.querySelector js/document "#legend")
+                                       :graph (.-graph w)})
+                                 (.render (js/Rickshaw.Graph.Axis.Y.
+                                           #js {:graph (.-graph w)}))
 
-(-> svg
-    (.append "g")
-    (.attr "class" "y axis")
-    (.call yAxis)
-    (.append "text")
-    (.attr "transform" "rotate(-90)")
-    (.attr "y" "6")
-    (.attr "dy" ".71em")
-    (.style "text-anchor", "end")
-    (.text "Acceleration"))
-
-
-(defn render [data]
-  (let [data (clj->js (map vector (iterate inc 0) data))]
-    (.domain x (.extent js/d3 data (fn [d] (first d))))
-    (.domain y (.extent js/d3 data (fn [d] (second d))))
-    (-> svg
-        (.append "path")
-        (.datum data)
-        (.attr "class" "line")
-        (.attr "d" line))))
-
-;;(render data)
-
-(GET "/accelerations" {:handler (fn [resp]
-                                  (render (resp "data")))
-                       :error-handler (fn [error] (.log js/console "error" error))
-                       :format :json})
+                                 )}))

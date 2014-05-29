@@ -14,11 +14,11 @@ var SERVER = "http://10.11.2.19:3000";
 
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function($scope, $http) {
-    $scope.acceleration = "0";
+  .controller('DashCtrl', function($scope, $rootScope, $http) {
+    $rootScope.acceleration = "0";
     var options = { frequency: 500 };
     var watchID = navigator.accelerometer.watchAcceleration(function(acceleration){
-      $scope.acceleration = absAcceleration(acceleration.x, acceleration.y, acceleration.z);
+      $rootScope.acceleration = absAcceleration(acceleration.x, acceleration.y, acceleration.z);
       console.log( "AbsAccel: ->( " + $scope.acceleration +" )<-");
       $http.post(SERVER + '/accelerations', JSON.stringify({
         accel: $scope.acceleration,
@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
         console.log( 'posted' );
       });
 
-      $scope.$apply();
+      $rootScope.$apply();
     }, onError, options);
   })
 

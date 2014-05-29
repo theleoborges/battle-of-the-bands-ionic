@@ -6442,15 +6442,9 @@ a.button {
   transition: none !important; }
 
 ion-content {
-<<<<<<< Updated upstream
-  -webkit-transition: background-color 300ms ease-out;
-  -moz-transition: background-color 300ms ease-out;
-  -transition: background-color 300ms ease-out; }
-=======
   -webkit-transition: background-color 100ms linear;
   -moz-transition: background-color 100ms linear;
   -transition: background-color 100ms linear; }
->>>>>>> Stashed changes
   ion-content[data-accel="0"] {
     background-color: #000000; }
   ion-content[data-accel="1"] {
@@ -6495,8 +6489,3 @@ ion-content {
     background-color: #00ceff; }
   ion-content[data-accel="21"] {
     background-color: #00f0ff; }
-<<<<<<< Updated upstream
-  ion-content h1 {
-    color: red; }
-=======
->>>>>>> Stashed changes
